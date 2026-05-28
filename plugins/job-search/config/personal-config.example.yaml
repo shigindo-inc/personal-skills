@@ -15,7 +15,7 @@ person:
   email: "{{ USER_EMAIL }}"           # 例：example@example.com
 
 paths:
-  portfolio_root: "{{ USER_PORTFOLIO_ROOT }}"   # 例：/Users/yamada/Workspace/portfolio
+  portfolio_root: "{{ USER_PORTFOLIO_ROOT }}"   # 例：~/path/to/portfolio
                                                  # 全 SKILL.md の ${USER_PORTFOLIO_ROOT} を解決する
 
 career:

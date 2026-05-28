@@ -74,6 +74,16 @@ audience: [human, agent]
 - [ ] サンプル portfolio で全 skill が動作することを別ユーザー（or 別マシン）で検証
 - [x] README に「これは個人ユース skill だが、`config/personal-config.example.yaml` をコピーして自分用にカスタムすれば再利用可能」明記
 
+#### 公開後の汚染防止
+
+- [ ] `main` は pull request 必須、直接 push 禁止
+- [ ] force push / branch deletion 禁止
+- [ ] release tag（`v*`）の更新・削除禁止
+- [ ] CODEOWNERS review 必須
+- [ ] validation workflow 必須
+- [ ] Claude Code marketplace は GitHub source + protected release tag で案内
+- [ ] Codex 向け install 手順を公開 docs に記載
+
 ## 帰結
 
 **ポジティブ**:

@@ -76,17 +76,18 @@ personal-skills/                              # この repo
 - [`docs/prompts.md`](./docs/prompts.md) — 再利用可能なプロンプト集
 - [`docs/aikata-feedback.md`](./docs/aikata-feedback.md) — aikata 側への改善提案（後日 aikata repo に共有予定）
 
-## クイックスタート（新しいマシンでセットアップする）
+## クイックスタート（GitHub marketplace として使う）
 
 ### 前提
 
 - Claude Code がインストール済み
-- aikata がインストール済み（`~/.local/bin/aikata` または PATH）
-- このリポジトリが clone されている：`/path/to/personal-skills/`
+- GitHub から `shigindo-inc/personal-skills` を取得できる
+- 実値を入れる `personal-config.local.yaml` は利用者のローカル環境で作成する
 
 ### 1. personal-config を作成
 
 ```bash
+git clone https://github.com/shigindo-inc/personal-skills.git
 cd plugins/job-search/config
 cp personal-config.example.yaml personal-config.local.yaml
 # personal-config.local.yaml を編集し、自分の値を入れる
@@ -102,8 +103,9 @@ cp personal-config.example.yaml personal-config.local.yaml
   "extraKnownMarketplaces": {
     "personal-skills": {
       "source": {
-        "source": "local",
-        "path": "/Users/<you>/path/to/personal-skills"
+        "source": "github",
+        "repo": "shigindo-inc/personal-skills",
+        "ref": "v0.1.0"
       }
     }
   },
@@ -115,6 +117,28 @@ cp personal-config.example.yaml personal-config.local.yaml
 
 `enabledPlugins` を `false` にしておくと、グローバルでは無効。
 個別プロジェクトの `.claude/settings.json`（or `settings.local.json`）で `true` に上書きすると、そのプロジェクトでだけ有効化される。
+
+### 2.5. marketplace を制限する（任意）
+
+組織管理端末などで、未承認 marketplace の追加を避けたい場合は
+Claude Code の managed settings で `strictKnownMarketplaces` を使う。
+以下は `personal-skills` と公式 marketplace だけを許可する例：
+
+```json
+{
+  "strictKnownMarketplaces": [
+    {
+      "source": "github",
+      "repo": "shigindo-inc/personal-skills",
+      "ref": "v0.1.0"
+    },
+    {
+      "source": "github",
+      "repo": "anthropics/claude-plugins-official"
+    }
+  ]
+}
+```
 
 ### 3. プロジェクトで有効化
 
@@ -151,6 +175,14 @@ cp personal-config.example.yaml personal-config.local.yaml
 - aikata 設定：[`.aikata/aikata.yaml`](./.aikata/aikata.yaml)
 - personal-config（個人情報・経歴・希望条件）：`plugins/job-search/config/personal-config.local.yaml`（.gitignore 対象）
 - 環境変数：[`.env.example`](./.env.example) を参考にする
+
+## 公開運用とセキュリティ
+
+- 直接 `main` へ push しない。変更は pull request 経由で取り込む
+- `.github/CODEOWNERS` 対象の marketplace / plugin / workflow / security 変更は maintainer review 必須
+- release tag（例：`v0.1.0`）は移動・削除しない
+- 秘密情報や実値は `.local.yaml` / `.env` にのみ置き、公開ファイルへ書かない
+- 詳細は [SECURITY.md](./SECURITY.md) と [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 ## ライセンス
 
