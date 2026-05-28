@@ -1,0 +1,15 @@
+{
+  "name": "job-search",
+  "version": "0.1.0",
+  "description": "Job-search workflow skills: company prep / interview QA / reverse questions / retrospective / mock interview / feedback integration / offer evaluation / agent interview prep + orchestrator agent",
+  "author": {
+    "name": "personal-skills maintainers"
+  },
+  "license": "MIT",
+  "keywords": [
+    "job-search",
+    "interview",
+    "career",
+    "personal"
+  ]
+}

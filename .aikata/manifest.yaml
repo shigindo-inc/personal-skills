@@ -1,0 +1,26 @@
+version: 1
+preset: standard
+lang: ja
+files:
+    - path: .env.example
+      sha256: c945671b0645b131e1de6155cbd4031fc0d04db1476a73c89fa8b40ab217c7a1
+    - path: .gitignore
+      sha256: c422068c5b43edafa711d32523732c26d95478f5726565fb99077d454f25aaee
+    - path: AGENTS.md
+      sha256: 3b0134c0ee62668cff1734e4eb206f8bb72042f1ed2bc7dfc62e71a9c615e5ec
+    - path: ARCHITECTURE.md
+      sha256: 8cebdb87280e1caa2c1aa178730876272158a7999114ae38755497520824c063
+    - path: GLOSSARY.md
+      sha256: 5bc14c2b0684c8031363903b0d60130d81be0eb188cbbd90ffabafee049723f3
+    - path: README.md
+      sha256: c1da2d107cde416fec0cb584f77cbc8d167bf66381c1231ed91bb4f933869724
+    - path: SPEC.md
+      sha256: 0c034465c0dcc822534e41061c2d1c480929fb23a4ec3d3c704a512e196a17e0
+    - path: docs/adr/0001-record-architecture-decisions.md
+      sha256: 6362180179015966ac66292c105a081442018e14edfb0459d35fb9b5311fc6f5
+    - path: docs/prompts.md
+      sha256: 92fe339998e75773b06206bbe5e9a6ba79d9a6e10de65abb5391c58a754a24c7
+    - path: docs/tasks/current.md
+      sha256: 8589b4fe205d39f598c929c29a9bddec110be09e87d1101bb3f33641632dbbe6
+    - path: docs/troubleshooting.md
+      sha256: c296d03efb0e42850487ae7ff7d66eff7e3f7f589560e36c521ff5bea4522461
