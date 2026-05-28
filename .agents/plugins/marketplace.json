@@ -1,0 +1,20 @@
+{
+  "name": "personal-skills",
+  "interface": {
+    "displayName": "Personal Skills"
+  },
+  "plugins": [
+    {
+      "name": "job-search",
+      "source": {
+        "source": "local",
+        "path": "./plugins/job-search"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "NONE"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

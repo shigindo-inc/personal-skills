@@ -13,22 +13,30 @@ Agent Skills として `SKILL.md` をインストールして使う。
 
 ## 推奨方針
 
-初回は重複管理を避けるため、Claude Code plugin 構造を source of truth とし、
-Codex 側では GitHub directory URL から必要な skill を取り込む。
+Claude Code plugin 構造を source of truth としつつ、Codex 向けには
+`.agents/plugins/marketplace.json` と `.codex-plugin/plugin.json` を提供する。
 
-## インストール例
+## marketplace として追加する
+
+```bash
+codex plugin marketplace add shigindo-inc/personal-skills --ref v0.1.1
+```
+
+追加後、Codex の plugin selector で `job-search@personal-skills` を有効化する。
+
+## skill を直接インストールする
 
 Codex で `$skill-installer` を使える場合：
 
 ```text
-$skill-installer install https://github.com/shigindo-inc/personal-skills/tree/v0.1.0/plugins/job-search/skills/company-prep
-$skill-installer install https://github.com/shigindo-inc/personal-skills/tree/v0.1.0/plugins/job-search/skills/interview-qa-generator
-$skill-installer install https://github.com/shigindo-inc/personal-skills/tree/v0.1.0/plugins/job-search/skills/reverse-questions-curator
-$skill-installer install https://github.com/shigindo-inc/personal-skills/tree/v0.1.0/plugins/job-search/skills/interview-retrospective
-$skill-installer install https://github.com/shigindo-inc/personal-skills/tree/v0.1.0/plugins/job-search/skills/feedback-integrator
-$skill-installer install https://github.com/shigindo-inc/personal-skills/tree/v0.1.0/plugins/job-search/skills/mock-interview
-$skill-installer install https://github.com/shigindo-inc/personal-skills/tree/v0.1.0/plugins/job-search/skills/offer-evaluator
-$skill-installer install https://github.com/shigindo-inc/personal-skills/tree/v0.1.0/plugins/job-search/skills/agent-interview-prep
+$skill-installer install https://github.com/shigindo-inc/personal-skills/tree/v0.1.1/plugins/job-search/skills/company-prep
+$skill-installer install https://github.com/shigindo-inc/personal-skills/tree/v0.1.1/plugins/job-search/skills/interview-qa-generator
+$skill-installer install https://github.com/shigindo-inc/personal-skills/tree/v0.1.1/plugins/job-search/skills/reverse-questions-curator
+$skill-installer install https://github.com/shigindo-inc/personal-skills/tree/v0.1.1/plugins/job-search/skills/interview-retrospective
+$skill-installer install https://github.com/shigindo-inc/personal-skills/tree/v0.1.1/plugins/job-search/skills/feedback-integrator
+$skill-installer install https://github.com/shigindo-inc/personal-skills/tree/v0.1.1/plugins/job-search/skills/mock-interview
+$skill-installer install https://github.com/shigindo-inc/personal-skills/tree/v0.1.1/plugins/job-search/skills/offer-evaluator
+$skill-installer install https://github.com/shigindo-inc/personal-skills/tree/v0.1.1/plugins/job-search/skills/agent-interview-prep
 ```
 
 インストール後、Codex セッションを再起動して skill discovery を更新する。

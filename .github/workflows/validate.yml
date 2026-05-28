@@ -20,16 +20,21 @@ jobs:
         run: |
           python -m json.tool .claude-plugin/marketplace.json >/dev/null
           python -m json.tool plugins/job-search/.claude-plugin/plugin.json >/dev/null
+          python -m json.tool .agents/plugins/marketplace.json >/dev/null
+          python -m json.tool plugins/job-search/.codex-plugin/plugin.json >/dev/null
 
       - name: Validate YAML
         run: |
           python - <<'PY'
           import pathlib
+          import subprocess
           import sys
           import yaml
 
-          for path in pathlib.Path(".").rglob("*.yaml"):
-              if ".git" in path.parts:
+          paths = subprocess.check_output(["git", "ls-files", "-co", "--exclude-standard"], text=True).splitlines()
+          for raw in paths:
+              path = pathlib.Path(raw)
+              if path.suffix not in {".yaml", ".yml"}:
                   continue
               with path.open(encoding="utf-8") as f:
                   yaml.safe_load(f)
@@ -47,6 +52,7 @@ jobs:
           python - <<'PY'
           import pathlib
           import re
+          import subprocess
           import sys
 
           patterns = {
@@ -63,13 +69,11 @@ jobs:
               ),
           }
 
-          excluded = {
-              ".git",
-              ".serena",
-          }
+          paths = subprocess.check_output(["git", "ls-files", "-co", "--exclude-standard"], text=True).splitlines()
           failures = []
-          for path in pathlib.Path(".").rglob("*"):
-              if not path.is_file() or any(part in excluded for part in path.parts):
+          for raw in paths:
+              path = pathlib.Path(raw)
+              if not path.is_file():
                   continue
               if path.as_posix() == ".github/workflows/validate.yml":
                   continue
@@ -102,4 +106,17 @@ jobs:
                   assert pathlib.Path(source).exists(), f"missing plugin source: {source}"
               for skill in plugin.get("skills", []):
                   assert pathlib.Path("plugins/job-search", skill, "SKILL.md").exists(), f"missing skill: {skill}"
+
+          codex_marketplace = json.loads(pathlib.Path(".agents/plugins/marketplace.json").read_text())
+          assert codex_marketplace["name"] == "personal-skills"
+          codex_plugins = codex_marketplace.get("plugins", [])
+          assert codex_plugins, "Codex marketplace must list at least one plugin"
+          for plugin in codex_plugins:
+              source = plugin["source"]
+              if source.get("source") == "local":
+                  assert pathlib.Path(source["path"]).exists(), f"missing Codex plugin source: {source['path']}"
+
+          codex_plugin = json.loads(pathlib.Path("plugins/job-search/.codex-plugin/plugin.json").read_text())
+          assert codex_plugin["name"] == "job-search"
+          assert pathlib.Path("plugins/job-search", codex_plugin["skills"]).exists(), "missing Codex skills directory"
           PY

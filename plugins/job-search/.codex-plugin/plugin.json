@@ -1,0 +1,37 @@
+{
+  "name": "job-search",
+  "version": "0.1.1",
+  "description": "Job-search workflow skills: company prep / interview QA / reverse questions / retrospective / mock interview / feedback integration / offer evaluation / agent interview prep.",
+  "author": {
+    "name": "personal-skills maintainers",
+    "url": "https://github.com/shigindo-inc/personal-skills"
+  },
+  "homepage": "https://github.com/shigindo-inc/personal-skills",
+  "repository": "https://github.com/shigindo-inc/personal-skills",
+  "license": "MIT",
+  "keywords": [
+    "job-search",
+    "interview",
+    "career",
+    "personal"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Job Search",
+    "shortDescription": "Prepare interviews and job-search workflows",
+    "longDescription": "A collection of job-search workflow skills for company prep, interview QA generation, reverse questions, retrospectives, mock interviews, feedback integration, offer evaluation, and agent interview preparation.",
+    "developerName": "personal-skills maintainers",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/shigindo-inc/personal-skills",
+    "privacyPolicyURL": "https://github.com/shigindo-inc/personal-skills/blob/main/SECURITY.md",
+    "termsOfServiceURL": "https://github.com/shigindo-inc/personal-skills/blob/main/CONTRIBUTING.md",
+    "defaultPrompt": [
+      "Use the job-search skills to prepare companies, interviews, reverse questions, retrospectives, and offer comparisons."
+    ],
+    "screenshots": []
+  }
+}

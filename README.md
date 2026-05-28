@@ -28,9 +28,11 @@ personal-skills/                              # この repo
 │   ├── tasks/ / troubleshooting.md / prompts.md
 │   └── aikata-feedback.md                    # aikata 側へのフィードバック
 ├── .claude-plugin/marketplace.json           # Claude Code marketplace 定義
+├── .agents/plugins/marketplace.json          # Codex marketplace 定義
 └── plugins/
     └── job-search/                           # 第一 plugin
         ├── .claude-plugin/plugin.json
+        ├── .codex-plugin/plugin.json
         ├── config/
         │   ├── personal-config.example.yaml  # 公開テンプレ
         │   └── personal-config.local.yaml    # 実値（.gitignore）
@@ -158,6 +160,15 @@ Claude Code の managed settings で `strictKnownMarketplaces` を使う。
 ```bash
 # Claude Code を再起動 / セッション開始
 # skill list に "job-search:*" が 8 件 + agent 1 件出ているか
+```
+
+## Codex で使う
+
+Codex は `codex plugin marketplace add` で同じ GitHub repo を marketplace として追加できる。
+詳細は [`docs/codex.md`](./docs/codex.md) を参照。
+
+```bash
+codex plugin marketplace add shigindo-inc/personal-skills --ref v0.1.1
 ```
 
 ## aikata 連携
