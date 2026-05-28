@@ -1,0 +1,28 @@
+{
+  "name": "personal-skills",
+  "owner": {
+    "name": "personal-skills maintainers"
+  },
+  "metadata": {
+    "description": "Personal AI skills marketplace (Claude Code + AGENTS.md compatible)",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "job-search",
+      "description": "転職活動向け 8 skill + 1 agent（企業フォルダ立ち上げ / 想定問答カスタム / 逆質問 / 面接振り返り / 模擬面接 / 横断 FB / 内定比較 / エージェント面談）",
+      "source": "./plugins/job-search",
+      "strict": false,
+      "skills": [
+        "./skills/company-prep",
+        "./skills/interview-qa-generator",
+        "./skills/reverse-questions-curator",
+        "./skills/interview-retrospective",
+        "./skills/feedback-integrator",
+        "./skills/mock-interview",
+        "./skills/offer-evaluator",
+        "./skills/agent-interview-prep"
+      ]
+    }
+  ]
+}
