@@ -1,0 +1,71 @@
+# personal-config.example.yaml
+#
+# job-search plugin で参照する個人情報・パス情報のテンプレ。
+# このファイルをコピーして `personal-config.local.yaml` を作成し、
+# 自分の値を埋めて使う。`.local.yaml` は .gitignore 対象。
+#
+# 公開リポジトリへコミットしてよいのはこの example のみ。
+#
+# Phase 3'-B：公開時に個人の経歴・希望条件を skill 本文へ直書きしないための設定テンプレ。
+# 実値は local.yaml のみに記載し、公開ファイルでは placeholder / null / 空配列に留める。
+
+person:
+  name: "{{ USER_FULL_NAME }}"        # 例：山田 太郎 / 辞退連絡・自己紹介の署名で使用
+  initials: "{{ USER_INITIALS }}"     # 例：Yamada / DOCX ファイル名等で使用
+  email: "{{ USER_EMAIL }}"           # 例：example@example.com
+
+paths:
+  portfolio_root: "{{ USER_PORTFOLIO_ROOT }}"   # 例：/Users/yamada/Workspace/portfolio
+                                                 # 全 SKILL.md の ${USER_PORTFOLIO_ROOT} を解決する
+
+career:
+  previous_jobs:
+    - name: "{{ PREV_JOB_A_NAME }}"
+      role: "{{ PREV_JOB_A_ROLE }}"       # 例：Network Engineer
+      period_start: "YYYY年MM月"
+      period_end:   "YYYY年MM月"
+  current_job:
+    name: "{{ CURRENT_JOB_NAME }}"
+    role: "{{ CURRENT_JOB_ROLE }}"        # 例：Software Engineer
+    period_start: "YYYY年MM月"
+  transition_topics:
+    - "{{ CAREER_TRANSITION_TOPIC }}"     # 例：ネットワークからソフトウェアへの職種転換
+
+side_projects:
+  projects:
+    - name: "{{ SIDE_PROJECT_A }}"
+      type: "PO/PM"
+    - name: "{{ SIDE_PROJECT_B }}"
+      type: "Full-stack"
+  hours_per_week:
+    weekday: 0   # 時間
+    weekend: 0   # 時間
+  total_count: 0
+  disclosure_policy: "{{ SIDE_PROJECT_DISCLOSURE_POLICY }}"  # 例：詳細な商流・顧客名は話さない
+
+qualifications:
+  toeic: null      # 例：850（数値、null なら未設定）
+  certifications: []
+
+education:
+  gap_period: null   # 例："YYYY年MM月〜YYYY年MM月"（該当なしなら null）
+  gap_reason_label: "{{ EDUCATION_GAP_REASON_LABEL }}"  # 例：休学 / 留学 / 家庭事情
+  total_years: null  # 例：6（数値、null なら標準）
+
+global_experience:
+  overseas_stay_duration: null  # 例："1年"（該当なしなら null）
+  countries: []                 # 例：["国名"]
+  offshore_collaboration_regions: []  # 例：["地域名"]
+
+mobility:
+  preferred_locations: []       # 例：["東京", "大阪"]
+  remote_preference: "{{ REMOTE_PREFERENCE }}"  # 例：フルリモート優先 / 週N日出社可
+  business_trip_ok: null        # 例：true / false / null
+
+compensation:
+  desired_salary_range:
+    lower: null   # 万円。例：700
+    upper: null   # 万円。例：900
+  minimum_salary: null  # 万円。例：650
+
+# 拡張時はここに新セクションを追加し、対応する SKILL.md を更新する。
