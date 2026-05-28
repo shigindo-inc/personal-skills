@@ -1,0 +1,7 @@
+# Marketplace, security, and automation changes need maintainer review.
+/.claude-plugin/ @Tomoshi3104
+/plugins/**/.claude-plugin/ @Tomoshi3104
+/.github/ @Tomoshi3104
+/SECURITY.md @Tomoshi3104
+/CONTRIBUTING.md @Tomoshi3104
+/AGENTS.md @Tomoshi3104

@@ -38,4 +38,25 @@ audience: [human, agent]
 
 ## エントリ
 
-_まだエントリなし。非自明なデバッグを通したときに最初の 1 件を追加する。_
+### private repo で branch protection / rulesets API が 403 になる
+
+**症状**
+
+> `Upgrade to GitHub Pro or make this repository public to enable this feature.`
+
+**原因**
+
+GitHub のプラン制約により、private repository では branch protection /
+repository rulesets を利用できない場合がある。
+
+**修正**
+
+1. private のまま初期 commit を push する。
+2. 公開運用ファイル（`SECURITY.md`, `CONTRIBUTING.md`, `CODEOWNERS`,
+   validation workflow）を先に追加する。
+3. repo を public 化した直後に branch ruleset / tag ruleset を適用する。
+
+public 化前は外部第三者が push できない。public 化後は ruleset 適用までの
+時間を最小化し、collaborator を追加しない。
+
+**Updated**: 2026-05-29

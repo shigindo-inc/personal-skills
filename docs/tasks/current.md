@@ -16,7 +16,7 @@ audience: [human, agent]
 
 ## 状況
 
-公開前の個人情報・準個人情報・シークレット残存監査を踏まえ、`docs/` 配下の残存具体例を再帰確認・一般化済み。
+public 化に向けて、GitHub 側の安全設定・公開運用ファイル・Claude Code / Codex 配布手順を整備中。
 
 ## 次のアクション
 
@@ -27,8 +27,16 @@ audience: [human, agent]
 - [x] skill / references 内の具体値を config 参照または明示サンプルへ寄せる
 - [x] README / ADR 0006 を更新し、再スキャンする
 - [x] `docs/` 配下を再帰的に確認し、公開向けでない具体例があれば一般化する
+- [x] private repo のまま `origin/main` へ push する
+- [x] 可能な範囲で GitHub merge / security settings を安全側へ寄せる
+- [x] SECURITY / CONTRIBUTING / CODEOWNERS / validation workflow を追加する
+- [x] Claude Code marketplace を GitHub source + release tag 前提に更新する
+- [x] Codex 向け外部 install 手順を追加する
+- [ ] workflow 通過後、public 化して branch / tag protection を適用する
 
 ## メモ
 
 直接的な実名・個人メール・実ローカルパスは公開候補には見つからなかった。`plugins/job-search/config/personal-config.local.yaml` には実値があるが `.gitignore` 対象。公開候補に出ていた `.serena/` は `.gitignore` に追加済み。学歴ギャップ・副業時間・海外経験・通勤可能エリアなど、個人に近い経歴/希望条件の具体例は `personal-config.example.yaml` の placeholder または「例：」付きサンプルへ寄せた。検証では direct identifier / email / 機密情報 scan は問題なし。`personal-config.example.yaml` は Ruby YAML parser で読み込み成功。
 `docs/` 配下についても、実ローカルパス・具体 org 例・過去スキャン件数・具体的な経歴/副業サンプルを一般化した。再スキャンでは direct identifier / email / 機密情報 / 準個人情報パターンはいずれもヒットなし。
+private repo では GitHub plan 制約により branch protection / rulesets API が 403 になった。public 化前に外部第三者は push できないため、公開運用ファイルを入れて push し、public 化直後に ruleset を適用する順序に調整する。
+ローカル検証では public candidate の JSON/YAML、privacy scan、marketplace sanity check が通過。
