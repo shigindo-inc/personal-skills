@@ -16,7 +16,7 @@ audience: [human, agent]
 
 ## 状況
 
-public 化に向けて、GitHub 側の安全設定・公開運用ファイル・Claude Code / Codex 配布手順を整備中。
+public 化済み。Claude Code は GitHub marketplace + release tag 参照へ切り替え済み。Codex も marketplace 登録は成功し、repo 側の Codex plugin manifest を追加中。
 
 ## 次のアクション
 
@@ -32,7 +32,8 @@ public 化に向けて、GitHub 側の安全設定・公開運用ファイル・
 - [x] SECURITY / CONTRIBUTING / CODEOWNERS / validation workflow を追加する
 - [x] Claude Code marketplace を GitHub source + release tag 前提に更新する
 - [x] Codex 向け外部 install 手順を追加する
-- [ ] workflow 通過後、public 化して branch / tag protection を適用する
+- [x] workflow 通過後、public 化して branch / tag protection を適用する
+- [ ] Codex 用 `.agents/plugins/marketplace.json` / `.codex-plugin/plugin.json` を PR 化し、release tag を切る
 
 ## メモ
 
@@ -40,3 +41,4 @@ public 化に向けて、GitHub 側の安全設定・公開運用ファイル・
 `docs/` 配下についても、実ローカルパス・具体 org 例・過去スキャン件数・具体的な経歴/副業サンプルを一般化した。再スキャンでは direct identifier / email / 機密情報 / 準個人情報パターンはいずれもヒットなし。
 private repo では GitHub plan 制約により branch protection / rulesets API が 403 になった。public 化前に外部第三者は push できないため、公開運用ファイルを入れて push し、public 化直後に ruleset を適用する順序に調整する。
 ローカル検証では public candidate の JSON/YAML、privacy scan、marketplace sanity check が通過。
+Codex は `codex plugin marketplace add shigindo-inc/personal-skills --ref v0.1.0` で marketplace 登録自体は成功。ただし Codex plugin として確実に認識させるため、Codex 用 manifest を追加して `v0.1.1` tag で案内する。
