@@ -48,26 +48,71 @@ jobs:
           test ! -e CLAUDE.md
 
       - name: Privacy denylist scan
+        env:
+          # Person-specific profile phrases live ONLY in this secret, never in
+          # this public file (writing the PII you want to block into a public
+          # denylist would leak it). Unset — e.g. on fork PRs — means the profile
+          # check is skipped; the generic path/email/secret checks always run.
+          PROFILE_DENYLIST: ${{ secrets.PROFILE_DENYLIST }}
         run: |
           python - <<'PY'
+          import os
           import pathlib
           import re
           import subprocess
           import sys
 
+          # Generic patterns are not themselves PII, so they may live in this
+          # public file.
           patterns = {
-              "local-user-path": re.compile(r"/Users/[^\\s)\\]>'\\\"]+|~/Workspace"),
-              "private-email": re.compile(r"[A-Za-z0-9._%+-]+@(gmail|icloud|me)\\.com"),
-              "private-profile": re.compile(
-                  r"***|***|***|***|"
-                  r"***|***|***"
-              ),
+              "local-user-path": re.compile(r"/Users/[^\s)\]>'\"]+|~/Workspace"),
+              "private-email": re.compile(r"[A-Za-z0-9._%+-]+@(gmail|icloud|me)\.com"),
               "secret-material": re.compile(
-                  r"BEGIN (RSA|OPENSSH|PRIVATE)|api[_-]?key\\s*[:=]|"
-                  r"client[_-]?secret\\s*[:=]|refresh[_-]?token\\s*[:=]",
+                  r"BEGIN (RSA|OPENSSH|PRIVATE)|api[_-]?key\s*[:=]|"
+                  r"client[_-]?secret\s*[:=]|refresh[_-]?token\s*[:=]",
                   re.IGNORECASE,
               ),
           }
+
+          # Person-specific profile phrases come from the PROFILE_DENYLIST secret
+          # (pipe-separated literal terms). Each term is escaped and matched
+          # literally, so the public file never contains the very PII it guards.
+          profile_terms = [t.strip() for t in os.environ.get("PROFILE_DENYLIST", "").split("|") if t.strip()]
+          if profile_terms:
+              patterns["private-profile"] = re.compile("|".join(re.escape(t) for t in profile_terms))
+          else:
+              print("notice: PROFILE_DENYLIST not set — skipping person-specific profile checks (generic checks still run).")
+
+          # Self-test: prove every active pattern is live before scanning real
+          # files. The earlier regexes were silently dead due to over-escaping in
+          # this quoted heredoc; this guard fails CI red if that ever recurs.
+          # Fixtures here are generic and contain no PII; the profile pattern is
+          # proven against a term from the secret, keeping this public file clean.
+          self_test = [
+              # (sample, should_match) — known-bad must HIT, known-good must MISS.
+              ("/Users/foo/bar", True),
+              ("~/Workspace/z", True),
+              ("x@gmail.com", True),
+              ("api_key=secret", True),
+              ("client_secret: x", True),
+              ("refresh_token=y", True),
+              ("-----BEGIN RSA PRIVATE KEY-----", True),
+              ("description of the api", False),
+              ("please contact us anytime", False),
+          ]
+          self_test_failures = []
+          for sample, should_match in self_test:
+              hit = any(pattern.search(sample) for pattern in patterns.values())
+              if hit != should_match:
+                  self_test_failures.append(
+                      f"self-test: {sample!r} expected match={should_match} got match={hit}"
+                  )
+          if profile_terms and not patterns["private-profile"].search(profile_terms[0]):
+              self_test_failures.append("self-test: private-profile pattern failed to match its own first term")
+          if self_test_failures:
+              print("\n".join(self_test_failures))
+              print("Privacy denylist self-test FAILED — patterns are not detecting as intended.")
+              sys.exit(1)
 
           paths = subprocess.check_output(["git", "ls-files", "-co", "--exclude-standard"], text=True).splitlines()
           failures = []
@@ -85,7 +130,7 @@ jobs:
                       failures.append(f"{path}: {name}")
 
           if failures:
-              print("\\n".join(failures))
+              print("\n".join(failures))
               sys.exit(1)
           PY
 
